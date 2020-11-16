@@ -35,7 +35,7 @@ class User
     private $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity=role::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fonction;
@@ -91,12 +91,12 @@ class User
         return $this;
     }
 
-    public function getFonction(): ?role
+    public function getFonction(): ?Role
     {
         return $this->fonction;
     }
 
-    public function setFonction(?role $fonction): self
+    public function setFonction(?Role $fonction): self
     {
         $this->fonction = $fonction;
 

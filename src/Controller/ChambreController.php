@@ -17,7 +17,7 @@ class ChambreController extends AbstractController
     {
         $repo = $this->getDoctrine()->getRepository(Chambre::class);
 
-        // $chambres = $repo->findAll();
+        $chambres = $repo->findAll();
 
         return $this->render('chambre/index.html.twig', [
             'controller_name' => 'ChambreController',

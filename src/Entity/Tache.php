@@ -24,7 +24,7 @@ class Tache
     private $chambre;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="taches")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="taches")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -56,14 +56,14 @@ class Tache
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
-        return $this->user;
+        return $this->User;
     }
 
-    public function setUser(?user $user): self
+    public function setUser(?User $user): self
     {
-        $this->user = $user;
+        $this->User = $user;
 
         return $this;
     }
