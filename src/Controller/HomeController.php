@@ -18,4 +18,5 @@ class HomeController extends AbstractController
             'role_user' => 'manager'
         ]);
     }
+
 }

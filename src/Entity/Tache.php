@@ -18,7 +18,7 @@ class Tache
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=chambre::class, inversedBy="taches")
+     * @ORM\ManyToOne(targetEntity=Chambre::class, inversedBy="taches")
      * @ORM\JoinColumn(nullable=false)
      */
     private $chambre;
@@ -44,12 +44,12 @@ class Tache
         return $this->id;
     }
 
-    public function getChambre(): ?chambre
+    public function getChambre(): ?Chambre
     {
         return $this->chambre;
     }
 
-    public function setChambre(?chambre $chambre): self
+    public function setChambre(?Chambre $chambre): self
     {
         $this->chambre = $chambre;
 

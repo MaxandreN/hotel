@@ -16,15 +16,21 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    {% if (role_user == 'manager') or  (role_user == 'Resseptionniste') %}
                     <li class="nav-item">
                         <a class="nav-link" href="/chambre">Chambres</a>
                     </li>
+                    {% endif %}
+                    {% if role_user == 'manager' %}
                     <li class="nav-item">
                         <a class="nav-link" href="/salarier">Salarier</a>
                     </li>
+                    {% endif %}
+                    {% if (role_user == 'manager') or (role_user == 'salarier') %}
                     <li class="nav-item">
                         <a class="nav-link" href="/tache">Tache</a>
                     </li>
+                    {% endif %}
                 </ul>
 
                 <form class="form-inline my-2 my-lg-0">
