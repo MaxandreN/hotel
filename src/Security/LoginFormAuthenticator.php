@@ -5,24 +5,28 @@ namespace App\Security;
 
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 
 
-class LoginFormAuthenticator implements AuthenticatorInterface
+class LoginFormAuthenticator extends AbstractAuthenticator
 {
     private $userRepository;
-    public function __construct(UserRepository $userRepository)
+    private $urlGeneratorInterface;
+    public function __construct(UserRepository $userRepository, UrlGeneratorInterface $urlGeneratorInterface )
     {
         $this->userRepository = $userRepository;
+        $this->urlGeneratorInterface = $urlGeneratorInterface;
+
     }
 
     /**
@@ -67,21 +71,6 @@ class LoginFormAuthenticator implements AuthenticatorInterface
     }
 
     /**
-     * Create an authenticated token for the given user.
-     *
-     * If you don't care about which token class is used or don't really
-     * understand what a "token" is, you can skip this method by extending
-     * the AbstractAuthenticator class from your authenticator.
-     *
-     * @see AbstractAuthenticator
-     *
-     * @param PassportInterface $passport The passport returned from authenticate()
-     */
-    public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
-    {
-
-    }
-    /**
      * Called when authentication executed and was successful!
      *
      * This should return the Response sent back to the user, like a
@@ -92,7 +81,7 @@ class LoginFormAuthenticator implements AuthenticatorInterface
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        dd('log ok ');
+        return new RedirectResponse($this->urlGeneratorInterface->generate('home'));
     }
 
     /**
