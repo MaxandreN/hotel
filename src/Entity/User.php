@@ -183,7 +183,11 @@ class User implements UserInterface
      * @return string[] The user roles
      */
     public function getRoles(){
-        return ['ROLE_USER'];
+        $roles[] = $this->fonction->getName();
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+    dd($roles);
+        return array_unique($roles);
     }
 
     /**

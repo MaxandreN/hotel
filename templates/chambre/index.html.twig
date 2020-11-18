@@ -1,30 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
 
 {% block title %}Hello ChambreController!{% endblock %}
 
 {% block body %}
-<section classe="articles">
-
+<div class="page">
+<div class="archive">
+                
 {% for chambre in chambres %}
-    <article>
-        <h2>Chambre: {{chambre.numero}} </h2>
+
+    <article class="article">
+        <h2 >Chambre: {{chambre.numero}} </h2>
         <div class="metadata">{{chambre.statut.label}}</div>
 
         {% if chambre.statut.id == 3 %}
-            <p>En attente</p>
         {% elseif chambre.statut.id == 2 %}
-            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">netoyer</a>
+            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
             <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-primary">libérer</a>
         {% elseif chambre.statut.id == 1 %}
-            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">netoyer</a>
+            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
             <a href="/chambre/edit/statut/{{chambre.id}}/2" class="btn btn-primary">louer</a>
         {% endif %}
-
-        
             <a href="" class="btn btn-primary">nouvelle tache</a>
 
     </article>
+
 {% endfor %}
 
-</section>
+</div>
+</div>
 {% endblock %}

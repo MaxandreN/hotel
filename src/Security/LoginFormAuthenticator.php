@@ -16,6 +16,11 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\HttpFoundation\Session\Session;
+
+
+
+
 
 
 class LoginFormAuthenticator extends AbstractAuthenticator
@@ -60,8 +65,13 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         // find a user based on an "email" form field
         $user = $this->userRepository->findOneByEmail($request->request->get('email'));
 
+        
+
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('User no found');
+        }else{
+
+            $request->getSession()->set('app_login_form', $request->request->get('email'));
         }
 
         return new Passport($user, new PasswordCredentials($request->request->get('password')), [
@@ -81,6 +91,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $request->getSession()->getFlashBag()->add('success', 'Loggin in successfully');
         return new RedirectResponse($this->urlGeneratorInterface->generate('home'));
     }
 
@@ -95,6 +106,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        dd($exception);
+        $request->getSession()->getFlashBag()->add('danger', 'Invald credentials!');
+        return new RedirectResponse($this->urlGeneratorInterface->generate('app_login'));
     }
 }

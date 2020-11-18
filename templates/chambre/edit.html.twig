@@ -1,1 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/base.html.twig' %}
+
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Hello ChambreController!{% endblock %}
+
+{% block body %}
+<div  class="articles" style='display: block;'>
+<table>
+    <tbody>
+        <tr>
+            
+    {% set i = 0 %}    
+{% for chambre in chambres %}
+<th>
+    <article class="card">
+        <h2>Chambre: {{chambre.numero}} </h2>
+        <div class="metadata">{{chambre.statut.label}}</div>
+
+        {% if chambre.statut.id == 3 %}
+            
+        {% elseif chambre.statut.id == 2 %}
+            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">netoyer</a>
+            <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-primary">libérer</a>
+        {% elseif chambre.statut.id == 1 %}
+            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">netoyer</a>
+            <a href="/chambre/edit/statut/{{chambre.id}}/2" class="btn btn-primary">louer</a>
+        {% endif %}
+            <a href="" class="btn btn-primary">nouvelle tache</a>
+
+    </article>
+</th>
+    {% set i = i + 1 %}
+    {% if i == 3 %}
+        </tr>
+        <tr>
+        {% set i = 0 %}
+    {% endif %}
+{% endfor %}
+            
+        </tr>
+    </tbody>
+</table>
+
+
+</div>
+{% endblock %}
+
