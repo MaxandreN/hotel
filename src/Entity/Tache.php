@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TacheRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,12 +59,12 @@ class Tache
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
     public function setUser(?User $user): self
     {
-        $this->User = $user;
+        $this->user = $user;
 
         return $this;
     }
@@ -73,12 +74,13 @@ class Tache
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(): self
     {
-        $this->dateDebut = $dateDebut;
+        $this->dateDebut = new DateTime();
 
         return $this;
     }
+
 
     public function getDateFin(): ?\DateTimeInterface
     {

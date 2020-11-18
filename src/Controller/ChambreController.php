@@ -14,8 +14,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class ChambreController extends AbstractController
 {
     /**
-     * @Route("/chambre", name="chambre_index")
-     * @IsGranted("ROLE_USER")
+     * @Route("/chambre/RECE", name="chambre_index_RECE")
+     * @IsGranted("ROLE_RECEPTIONNISTE")
+     */
+    public function indexRECE(): Response
+    {
+        $repo = $this->getDoctrine()->getRepository(Chambre::class);
+
+        $chambres = $repo->findAll();
+
+
+        return $this->render('chambre/index.html.twig', [
+            'controller_name' => 'ChambreController',
+            'chambres' => $chambres
+        ]);
+
+    }
+
+    /**
+     * @Route("/chambre/MANA", name="chambre_index_MANA")
+     * @IsGranted("ROLE_MANAGER")
      */
     public function index(): Response
     {
@@ -26,23 +44,12 @@ class ChambreController extends AbstractController
 
         return $this->render('chambre/index.html.twig', [
             'controller_name' => 'ChambreController',
-            'role_user' => 'manager',
             'chambres' => $chambres
         ]);
 
     }
 
     /**
-     * @Route("/chambre/edit", name="edit_chambre")
-     */
-    public function editChambre(){
-        return $this->render('chambre/edit.html.twig', [
-            'controller_name' => 'ChambreController',
-            'role_user' => 'manager'
-        ]);
-    }
-
-        /**
      * @Route("/chambre/edit/statut/{id_chambre}/{id_statut}", name="edit_statut_chambre")
      */
     public function editChambreStatut($id_chambre, $id_statut){
@@ -56,7 +63,7 @@ class ChambreController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->redirectToRoute('chambre_index');
+        return $this->redirectToRoute('chambre_index_RECE');
     }
 }
   

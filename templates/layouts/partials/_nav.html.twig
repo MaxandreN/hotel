@@ -8,15 +8,26 @@
              
                 <ul class="navbar-nav mr-auto">
                 {% if app.user %}
+                    {% if is_granted('ROLE_RECEPTIONNISTE') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('chambre_index') }}">Chambres</a>
+                        <a class="nav-link" href="{{ path('chambre_index_RECE') }}">Chambres</a>
                     </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MANAGER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('chambre_index_MANA') }}">Chambres</a>
+                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_MANAGER') %}
                     <li class="nav-item">
                         <a class="nav-link" href="/salarie">Salarié</a>
                     </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_EMPLOYE_CHAMBRE') %}
                     <li class="nav-item">
                         <a class="nav-link" href="/tache">Tache</a>
                     </li>
+                    {% endif %}
                 {% endif %}
                 </ul>
             

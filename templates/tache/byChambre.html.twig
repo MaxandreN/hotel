@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block body %}
+<div class="page">
+<div class="archive">
+                
+{% for user in users %}
+
+    <article class="article">
+        <h2 >{{user.nom}} {{user.prenom}}</h2>
+        <div class="metadata">{{user.fonction.label}}</div>
+
+        <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-primary">assigner</a>
+
+    </article>
+
+{% endfor %}
+
+</div>
+</div>
+{% endblock %}

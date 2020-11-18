@@ -186,7 +186,6 @@ class User implements UserInterface
         $roles[] = $this->fonction->getName();
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-    dd($roles);
         return array_unique($roles);
     }
 

@@ -3,25 +3,45 @@
 {% block title 'Login'%}
 
 {% block body %}
-    <h1>Log in </h1>
-    <form novalidate method="POST">
-        <div>
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>
-            <div>
-                <lable for="email">Email:</lable>
-                <input type="email" id="email" name="email" value={{ app.session.get('app_login_form') }} required autofocus>
-            </div>
-        </div>
-        <br>
-        <div>
 
-            <lable for="password">Password:</lable>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token('login_form') }}">
-        <input type="submit" value="Sign In">
-    </form>
 
+<div class="card-body">
+	<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>Sign In</h3>
+				<div class="d-flex justify-content-end social_icon">
+					<span><i class="fab fa-facebook-square"></i></span>
+					<span><i class="fab fa-google-plus-square"></i></span>
+					<span><i class="fab fa-twitter-square"></i></span>
+				</div>
+			</div>
+			<div class="card-body">
+				<form method="POST">
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><img alt="person" class="iconLogin" src="https://img.icons8.com/material-rounded/344/person-male.png" lazy="loaded"></i></span>
+						</div>
+                        <input type="email" class="form-control"  id="email" name="email" placeholder="username" value="{{ app.session.get('app_login_form') }}" required autofocus>
+						
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><img alt="key" class="iconLogin" src="https://img.icons8.com/material-rounded/344/key.png" lazy="loaded"></i></span>
+						</div>
+                        <input type="password" class="form-control" placeholder="password" id="password" name="password" required>
+					</div>
+					<div class="form-group">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token('login_form') }}">
+                        <input type="submit"  value="Login" class="btn float-right btn-success">
+					</div>
+				</form>
+			</div>
+			<div class="card-footer">
+                <br>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

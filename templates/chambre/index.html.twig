@@ -11,17 +11,18 @@
     <article class="article">
         <h2 >Chambre: {{chambre.numero}} </h2>
         <div class="metadata">{{chambre.statut.label}}</div>
-
-        {% if chambre.statut.id == 3 %}
-        {% elseif chambre.statut.id == 2 %}
-            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
-            <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-primary">libérer</a>
-        {% elseif chambre.statut.id == 1 %}
-            <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
-            <a href="/chambre/edit/statut/{{chambre.id}}/2" class="btn btn-primary">louer</a>
+        {% if is_granted('ROLE_RECEPTIONNISTE') %}
+            {% if chambre.statut.id == 3 %}
+            {% elseif chambre.statut.id == 2 %}
+                <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
+                <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-primary">libérer</a>
+            {% elseif chambre.statut.id == 1 %}
+                <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
+                <a href="/chambre/edit/statut/{{chambre.id}}/2" class="btn btn-primary">louer</a>
+            {% endif %}
+        {% elseif is_granted('ROLE_MANAGER') %}
+            <a href="/tache/edit/chambre/{{chambre.id}}" class="btn btn-primary">nouvelle tache</a>
         {% endif %}
-            <a href="" class="btn btn-primary">nouvelle tache</a>
-
     </article>
 
 {% endfor %}
