@@ -4,72 +4,163 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Chambre;
+use App\Entity\Statut;
 use App\Entity\Tache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class TacheController extends AbstractController
 {
     /**
-     * @Route("/tache", name="tache")
+     * @Route("/MyTache", name="tache_My")
      */
-    public function index(): Response
+    public function getMyTache(): Response
     {
-        return $this->render('tache/index.html.twig', [
-            'controller_name' => 'TacheController',
+        //app.user.username
+        $user = $this->getUser();
+        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
+        $taches = $repoTache->findBy([
+            'user' => $user,
+            'dateFin' => NULL
         ]);
+
+
+
+        return $this->render('tache/MyTache.html.twig', [
+            'controller_name' => 'MyTache',
+            'taches' => $taches
+        ]);
+
+    }
+
+     /**
+     * @Route("/EndTache/{id_tache}", name="end_Tache")
+     */
+    public function setTacheEnd($id_tache): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
+        $repoChambre = $this->getDoctrine()->getRepository(Chambre::class);
+        $repoStatut = $this->getDoctrine()->getRepository(Statut::class);
+        $tache = $repoTache->findOneBy([
+            'user' => $user,
+            'id' => $id_tache,
+            'dateFin' => NULL
+        ]);
+
+        $chambre = $repoChambre->find($tache->getChambre()->getId());
+        $statut = $repoStatut ->findOneBy([
+            'id' => 1
+        ]);
+        
+
+        $tache->setDateFin();
+        $chambre->setStatut($statut);
+
+        $entityManager->persist($tache);
+        $entityManager->persist($chambre);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('tache_My');
+
     }
 
     /**
      * @Route("/tache/edit/chambre/{id}", name="tache_edit_chambre")
      */
-    public function addTacheChambre($id): Response
+    public function addTacheEditChambre($id): Response
     {
-        $repoChambre = $this->getDoctrine()->getRepository(Chambre::class);
+        $repoChamber = $this->getDoctrine()->getRepository(Chambre::class);        
         $repoUser = $this->getDoctrine()->getRepository(User::class);
-        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
-        $chambre = $repoChambre->find($id);
-        $users = $repoUser->findBy([
-            'fonction' => 1,
-        ]);
-        $taches = $repoTache->findBy([
-            'dateFin' => NULL
-        ]);
+        $repoTache =$this->getDoctrine()->getRepository(Tache::class);
 
-        foreach($users as $user){
-            //dd($tache->getUser());
-            $tache = $repoTache->findOneBy([
-                'dateFin' => NULL,
-                'user' => $user
-            ]);
-            
-            if($tache == null){
-                $usersFree[] = $user;
+        $user = $repoUser->find($id);
+
+        $chambres = $repoChamber->findAll();
+
+        foreach($chambres as $chambre){
+            if($chambre->getStatut()->getID() == 3){
+                $taches = $repoTache->findBy([
+                    'chambre' => $chambre,
+                    'dateFin' => null
+                ]);
+
+
+
+
+                if($taches <= 1){
+                    $chambre->tacheNb = 0;
+                }else{
+                   $chambre->tacheNb = count($taches);
+                }
+
+
+            }else{
+                $chambre->tacheNb = 0;
             }
+            $chambresFull[] =$chambre;
+            unset($taches);
         }
 
-        return $this->render('tache/byChambre.html.twig', [
-            'controller_name' => 'TacheController',
-            'chambre' => $chambre,
-            'users' => $usersFree
-        ]);
 
+
+        return $this->render('tache/byUser.html.twig', [
+            'controller_name' => 'SalarieController',
+            'chambres' => $chambresFull,
+            'user' => $user
+        ]);
 
     }
 
-            /**
+    /**
      * @Route("/tache/edit/user/{id}", name="tache_edit_user")
      */
-    public function addTacheUser(): Response
+    public function addTacheEditUser($id): Response
     {
-        $repo = $this->getDoctrine()->getRepository(Tache::class);
+        $repo = $this->getDoctrine()->getRepository(User::class);
+        $repoChambre = $this->getDoctrine()->getRepository(Chambre::class);
+        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
 
-        $chambres = $repo->findAll();
+        $Users = $repo->findBy(['fonction' => 1]);
+        $chambre = $repoChambre->find($id);
 
-        return $this->render('tache/index.html.twig', [
-            'controller_name' => 'TacheController',
+        foreach($Users as $user){
+            $tacheTest = $repoTache->findOneBy([
+                'user' => $user,
+                'chambre' => $chambre,
+                'dateFin' => NULL
+            ]);
+            
+            $taches = $repoTache->findBy([
+                'user' => $user,
+                'dateFin' => NULL
+                ]);
+
+
+            if($tacheTest != null){
+                $user->libre = false;
+                $user->tache = $tacheTest->getId();
+
+            }else{
+                $user->libre = true;
+
+            }
+
+
+            $user->nbTache = count($taches);
+            $UsersFull[] = $user;
+            unset($taches);
+
+
+            
+        }
+        return $this->render('tache/byChambre.html.twig', [
+            'controller_name' => 'ChambreController',
+            'users' => $UsersFull,
+            'chambre' => $chambre
         ]);
     }
 
@@ -95,6 +186,22 @@ class TacheController extends AbstractController
         $entityManager->persist($tache);
         $entityManager->flush();
 
-        return $this->redirectToRoute('chambre_index_MANA');
+        return $this->redirectToRoute('home');
+    }
+
+
+        /**
+     * @Route("/tache/del/{id_tache}", name="tache_del")
+     */
+    public function delTache($id_tache): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $repoTache = $entityManager->getRepository(Tache::class);
+
+        $tache = $repoTache->find($id_tache);
+        $entityManager->remove($tache);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
     }
 }

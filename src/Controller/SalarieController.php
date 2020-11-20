@@ -23,12 +23,24 @@ class SalarieController extends AbstractController
     public function getSalarie(): Response
     {
         $repo = $this->getDoctrine()->getRepository(User::class);
+        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
 
         $Users = $repo->findBy(['fonction' => 1]);
 
+        foreach($Users as $user){
+            
+            $taches = $repoTache->findBy([
+                'user' => $user,
+                'dateFin' => NULL
+                ]);
+            $user->nbTache = count($taches);
+            $UsersFull[] = $user;
+            unset($taches);
+        }
+
         return $this->render('salarie/index.html.twig', [
             'controller_name' => 'SalarieController',
-            'users' => $Users
+            'users' => $UsersFull,
         ]);
     }
 }

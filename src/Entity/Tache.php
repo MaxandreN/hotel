@@ -87,9 +87,9 @@ class Tache
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): self
+    public function setDateFin(): self
     {
-        $this->dateFin = $dateFin;
+        $this->dateFin = new DateTime();
 
         return $this;
     }

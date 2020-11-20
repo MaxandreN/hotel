@@ -4,18 +4,15 @@
 
 {% block body %}
 <div class="page">
-<div class="archive">
+    <div class="archive">
+        {% for chambre in chambres %}
+        <article class="article">
+            <h2 >Chambre: {{chambre.numero}} </h2>
+            <div class="metadata">{{chambre.statut.label}}</div>
 
-    {% for chambre in chambres %}
-
-    <article class="article">
-        <h2 >Chambre: {{chambre.numero}} </h2>
-        <div class="metadata">{{chambre.statut.label}}</div>
-
-    </article>
-
-{% endfor %}
-</div>
+        </article>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

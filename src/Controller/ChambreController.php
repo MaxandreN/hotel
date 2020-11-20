@@ -38,13 +38,34 @@ class ChambreController extends AbstractController
     public function index(): Response
     {
         $repo = $this->getDoctrine()->getRepository(Chambre::class);
+        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
 
         $chambres = $repo->findAll();
+
+        foreach($chambres as $chambre){
+            if($chambre->getStatut()->getID() == 3){
+                $taches = $repoTache->findBy([
+                    'chambre' => $chambre,
+                    'dateFin' => null
+                ]);
+
+                if($taches <= 1){
+                    $chambre->tacheNb = 0;
+                }else{
+                   $chambre->tacheNb = count($taches);
+                }
+            }else{
+                $chambre->tacheNb = 0;
+            }
+            $chambresFull[] =$chambre;
+            unset($taches);
+        }
+
 
 
         return $this->render('chambre/index.html.twig', [
             'controller_name' => 'ChambreController',
-            'chambres' => $chambres
+            'chambres' => $chambresFull
         ]);
 
     }

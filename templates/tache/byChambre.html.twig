@@ -3,18 +3,28 @@
 {% block body %}
 <div class="page">
 <div class="archive">
-                
-{% for user in users %}
+    {% for user in users %}
 
-    <article class="article">
-        <h2 >{{user.nom}} {{user.prenom}}</h2>
-        <div class="metadata">{{user.fonction.label}}</div>
+        <article class="article">
+            <h2 >{{user.nom}} {{user.prenom}}</h2>
+            <div class="metadata">{{user.fonction.label}}</div>
+            {% if user.nbTache %}
+                <div class="metadata">nombre de tache(s) : {{user.nbTache}}</div>
+            {% else %}
+                <div class="metadata">aucune tache pour le moment</div>
+            {% endif %}
+            {% if user.libre == true %}
+                <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-primary">assigner</a>
+            
+            {% elseif user.libre == false %}
+                <p class="btn btn-outline-secondary">déjà assigner</p>
+                <a href='/tache/del/{{user.tache}}' class="btn btn-outline-warning">Suprimer</a>
+            {% endif %}
 
-        <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-primary">assigner</a>
+        </article>
 
-    </article>
+    {% endfor %}
 
-{% endfor %}
 
 </div>
 </div>

@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Hello ChambreController!{% endblock %}
+
+{% block body %}
+<div class="page">
+<div class="archive">
+                
+{% for tache in taches %}
+
+    <article class="article">
+        <h2>Tache: {{tache.chambre.numero}} </h2>
+        <p>Chambre: {{tache.chambre.numero}}</p>
+        <p>Etage : {{tache.chambre.etage}}</p>
+
+        <div class="metadata">{{tache.chambre.statut.label}}</div>
+        <a href="/EndTache/{{tache.id}}" class="btn btn-primary">Terminer</a>
+    </article>
+
+{% endfor %}
+
+</div>
+</div>
+{% endblock %}

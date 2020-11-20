@@ -12,7 +12,8 @@
         <h2 >Chambre: {{chambre.numero}} </h2>
         <div class="metadata">{{chambre.statut.label}}</div>
         {% if is_granted('ROLE_RECEPTIONNISTE') %}
-            {% if chambre.statut.id == 2 %}
+            {% if chambre.statut.id == 3 %}
+            {% elseif chambre.statut.id == 2 %}
                 <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
                 <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-primary">libérer</a>
             {% elseif chambre.statut.id == 1 %}
@@ -22,9 +23,9 @@
         {% elseif is_granted('ROLE_MANAGER') %}
             {% if chambre.statut.id == 3 %}
                 {% if chambre.tacheNb >= 1 %}
-                    <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-primary">assigner {{(chambre.tacheNb)+1}} eme</a>
+                    <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-primary">assigner {{(chambre.tacheNb)+1}} eme</a>
                 {% elseif chambre.tacheNb == 0 %}
-                    <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-success">assigner</a>
+                    <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-success">assigner</a>
                 {% endif %}
             {% endif %}
         {% endif %}

@@ -9,8 +9,13 @@
     <article class="article">
         <h2 >{{user.nom}} {{user.prenom}}</h2>
         <div class="metadata">{{user.fonction.label}}</div>
+        {% if user.nbTache %}
+            <div class="metadata">nombre de tache(s) : {{user.nbTache}}</div>
+        {% else %}
+            <div class="metadata">aucune tache pour le moment</div>
+        {% endif %}
 
-        <a href="" class="btn btn-primary">nouvelle tache</a>
+        <a href="/tache/edit/chambre/{{user.id}}" class="btn btn-primary">nouvelle tache</a>
 
     </article>
 
