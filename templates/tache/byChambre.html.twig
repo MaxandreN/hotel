@@ -14,12 +14,14 @@
                 <div class="metadata">aucune tache pour le moment</div>
             {% endif %}
             {% if user.libre == true %}
-                <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-primary">assigner</a>
+                <a href="/tache/edit/{{chambre.id}}/{{user.id}}" class="btn btn-success">assigner</a>
             
             {% elseif user.libre == false %}
-                <p class="btn btn-outline-secondary">déjà assigner</p>
+                <a class="btn btn-outline-secondary">déjà assigner</a>
                 <a href='/tache/del/{{user.tache}}' class="btn btn-outline-warning">Suprimer</a>
             {% endif %}
+            <a href="../salarie/{{ user.id }}" class="btn btn-outline-primary">voir plus</a>
+
 
         </article>
 

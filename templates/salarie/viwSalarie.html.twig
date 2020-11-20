@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block body %}
+<div class="page">
+    <div class="archive">
+        <article class="article">
+            <h2 >{{user.nom}} {{user.prenom}}</h2>
+            <div class="metadata">{{user.fonction.label}}</div>
+            {% if user.nbTache > 0 %}
+                <div class="metadata">nombre de tache(s) : {{user.nbTache}}</div>
+            {% else %}
+                <div class="metadata">aucune tache pour le moment</div>
+            {% endif %}
+
+            <a href="/tache/edit/chambre/{{user.id}}" class="btn btn-primary">nouvelle tache</a>
+
+        </article>
+    </div>
+    <br>
+    <div class="archive">
+
+    {% if user.nbTache > 0 %}
+        {% for tache in taches %}
+
+            <article class="article">
+                <h2 >Tache: </h2>
+                <div class="metadata">chambre: {{ tache.chambre.numero }}</div>
+                <div class="metadata">etage: {{ tache.chambre.etage }}</div>
+            </article>
+
+        {% endfor %}
+    {% else %}
+        <div class="metadata">aucune tache pour le moment</div>
+    {% endif %}      
+
+    </div>
+</div>
+{% endblock %}

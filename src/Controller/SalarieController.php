@@ -15,12 +15,36 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class SalarieController extends AbstractController
-{
-    /**
-     * @Route("/salarie", name="salarie")
+{    
+            /**
+     * @Route("/salarie/{id}", name="salarie_By_Id")
      * @IsGranted("ROLE_MANAGER")
      */
-    public function getSalarie(): Response
+    public function getSalarieById($id): Response
+    {
+        $repo = $this->getDoctrine()->getRepository(User::class);
+        $repoTache = $this->getDoctrine()->getRepository(Tache::class);
+
+        $user = $repo->find($id);
+
+        $taches = $repoTache->findBy([
+            'user' => $user,
+            'dateFin' => null
+        ]);
+        $user->nbTache = count($taches);
+
+        return $this->render('salarie/viwSalarie.html.twig', [
+            'controller_name' => 'SalarieController',
+            'user' => $user,
+            'taches' => $taches
+        ]);
+    }
+    
+    /**
+     * @Route("/salarie", name="salaries_all")
+     * @IsGranted("ROLE_MANAGER")
+     */
+    public function getSalaries(): Response
     {
         $repo = $this->getDoctrine()->getRepository(User::class);
         $repoTache = $this->getDoctrine()->getRepository(Tache::class);

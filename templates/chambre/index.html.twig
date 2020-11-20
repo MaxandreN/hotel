@@ -13,11 +13,11 @@
         <div class="metadata">{{chambre.statut.label}}</div>
         {% if is_granted('ROLE_RECEPTIONNISTE') %}
             {% if chambre.statut.id == 2 %}
-                <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
-                <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-primary">libérer</a>
+                <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-outline-warning">fin location</a>
+                <a href="/chambre/edit/statut/{{chambre.id}}/1" class="btn btn-outline-danger">Annuler</a>
             {% elseif chambre.statut.id == 1 %}
-                <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-primary">nettoyer</a>
-                <a href="/chambre/edit/statut/{{chambre.id}}/2" class="btn btn-primary">louer</a>
+                <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-outline-primary">nettoyer</a>
+                <a href="/chambre/edit/statut/{{chambre.id}}/2" class="btn btn-success">louer</a>
             {% endif %}
         {% elseif is_granted('ROLE_MANAGER') %}
             {% if chambre.statut.id == 3 %}

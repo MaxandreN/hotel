@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TacheController extends AbstractController
 {
     /**
      * @Route("/MyTache", name="tache_My")
+     * @IsGranted("ROLE_USER")
      */
     public function getMyTache(): Response
     {
@@ -37,6 +39,7 @@ class TacheController extends AbstractController
 
      /**
      * @Route("/EndTache/{id_tache}", name="end_Tache")
+     * @IsGranted("ROLE_USER")
      */
     public function setTacheEnd($id_tache): Response
     {
@@ -70,6 +73,7 @@ class TacheController extends AbstractController
 
     /**
      * @Route("/tache/edit/chambre/{id}", name="tache_edit_chambre")
+     * @IsGranted("ROLE_MANAGER")
      */
     public function addTacheEditChambre($id): Response
     {
@@ -117,6 +121,7 @@ class TacheController extends AbstractController
 
     /**
      * @Route("/tache/edit/user/{id}", name="tache_edit_user")
+     * @IsGranted("ROLE_MANAGER")
      */
     public function addTacheEditUser($id): Response
     {
@@ -166,6 +171,7 @@ class TacheController extends AbstractController
 
     /**
      * @Route("/tache/edit/{id_chambre}/{id_user}", name="tache_edit")
+     * @IsGranted("ROLE_MANAGER")
      */
     public function addTache($id_chambre, $id_user): Response
     {
@@ -192,6 +198,7 @@ class TacheController extends AbstractController
 
         /**
      * @Route("/tache/del/{id_tache}", name="tache_del")
+     * @IsGranted("ROLE_MANAGER")
      */
     public function delTache($id_tache): Response
     {
