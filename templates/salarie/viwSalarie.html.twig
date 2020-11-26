@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html.twig' %}
 
+{% block title 'Salarié'%}
+
 {% block body %}
 <div class="page">
     <div class="archive">
@@ -13,6 +15,8 @@
             {% endif %}
 
             <a href="/tache/edit/chambre/{{user.id}}" class="btn btn-primary">nouvelle tache</a>
+            <a href="/user/update/{{user.id}}" class="btn btn-warning">modifer</a>
+            <a href="/user/delete/{{user.id}}" class="btn btn-danger">suprimer</a>
 
         </article>
     </div>

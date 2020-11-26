@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'chambre'%}
+
+{% block body %}
+<div class="page">
+    <div class="archive">
+        <article class="article">
+            <h2 >Chambre: {{chambre.numero}} </h2>
+            <div class="metadata">statut : {{chambre.statut.label}}</div>
+            <div class="metadata">étage : {{chambre.etage}}</div>
+            {% if chambre.nbTache >= 1 %}
+                <div class="metadata">nombre de salarié : {{chambre.nbTache}}</div>
+            {% endif %}
+            
+            {% if is_granted('ROLE_MANAGER') %}
+                {% if chambre.statut.id == 3 %}
+                    {% if chambre.nbTache >= 1 %}
+                        <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-primary">assigner d'autre salarié</a>
+                    {% elseif chambre.nbTache == 0 %}
+                        <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-success">assigner un salarié</a>
+                    {% endif %}
+                {% endif %}
+                <a href="/chambre/update/{{chambre.id}}" class="btn btn-success">modifer</a>
+                <a href="/chambre/delete/{{chambre.id}}" class="btn btn-danger">suprimer</a>
+            {% endif %}
+        </article>
+    </div>
+    <br>
+    <div class="archive">
+
+    {% if chambre.nbTache > 0 %}
+        {% for tache in taches %}
+
+        <article class="article">
+            <h2 >{{tache.user.nom}} {{tache.user.prenom}}</h2>
+            <div class="metadata">{{tache.user.fonction.label}}</div>
+            <a href="../salarie/{{ tache.user.id }}" class="btn btn-outline-primary">voir plus</a>
+
+        </article>
+
+        {% endfor %}
+    {% else %}
+        <div class="metadata">aucune tache pour le moment</div>
+    {% endif %}      
+
+    </div>
+</div>
+{% endblock %}

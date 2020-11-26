@@ -1,16 +1,22 @@
 {% extends 'layouts/base.html.twig' %}
 
-{% block title %}Hello ChambreController!{% endblock %}
+{% block title %}chambre{% endblock %}
 
 {% block body %}
 <div class="page">
+<a href="/chambre/edit/new" class="btn btn-primary">Nouvelle chambre</a>
 <div class="archive">
                 
 {% for chambre in chambres %}
 
     <article class="article">
         <h2 >Chambre: {{chambre.numero}} </h2>
-        <div class="metadata">{{chambre.statut.label}}</div>
+        <div class="metadata">statut : {{chambre.statut.label}}</div>
+        <div class="metadata">étage : {{chambre.etage}}</div>
+        {% if chambre.tacheNb >= 1 %}
+            <div class="metadata">nombre de salarié : {{chambre.tacheNb}}</div>
+        {% endif %}
+        
         {% if is_granted('ROLE_RECEPTIONNISTE') %}
             {% if chambre.statut.id == 2 %}
                 <a href="/chambre/edit/statut/{{chambre.id}}/3" class="btn btn-outline-warning">fin location</a>
@@ -22,11 +28,12 @@
         {% elseif is_granted('ROLE_MANAGER') %}
             {% if chambre.statut.id == 3 %}
                 {% if chambre.tacheNb >= 1 %}
-                    <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-primary">assigner {{(chambre.tacheNb)+1}} eme</a>
+                    <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-primary">assigner</a>
                 {% elseif chambre.tacheNb == 0 %}
                     <a href="/tache/edit/user/{{chambre.id}}" class="btn btn-success">assigner</a>
                 {% endif %}
             {% endif %}
+            <a href="/chambre/view/{{chambre.id}}" class="btn btn-outline-primary">plus d'info</a>
         {% endif %}
     </article>
 

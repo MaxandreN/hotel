@@ -1,9 +1,12 @@
 {% extends 'layouts/base.html.twig' %}
 
+{% block title 'home'%}
+
 {% block body %}
 <div class="page">
+<a href="/salarie/edit/new" class="btn btn-primary">Nouveau salarié</a>
+</br>
 <div class="archive">
-                
 {% for user in users %}
 
     <article class="article">
@@ -21,6 +24,11 @@
     </article>
 
 {% endfor %}
+
+
+
+
+
 
 </div>
 </div>

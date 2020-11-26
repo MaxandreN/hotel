@@ -70,7 +70,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('User no found');
         }else{
-
             $request->getSession()->set('app_login_form', $request->request->get('email'));
         }
 

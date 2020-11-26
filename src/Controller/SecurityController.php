@@ -25,4 +25,5 @@ class SecurityController extends AbstractController
        // $this->denyAccessUnlessGranted('ROLE_USER');
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on tour firwall.');
     }
+    
 }
