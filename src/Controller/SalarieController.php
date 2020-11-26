@@ -135,7 +135,7 @@ class SalarieController extends AbstractController
 
 
     /**
-    * @Route("/user/delete/{id_user}", name="update_salarie")
+    * @Route("/user/delete/{id_user}", name="delete_salarie")
     */
     public function deleteUser ($id_user) {
  
